@@ -41,7 +41,7 @@ require_relative 'about'
 require 'openssl' if UseOpenSSL
 require 'uri'
 
-Version = "0.11.0"
+Version = "0.12.0"
 
 def setup_redis(uri=RedisURL)
     uri = URI.parse(uri)
