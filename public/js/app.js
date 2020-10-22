@@ -3,7 +3,7 @@ function login() {
         username: $("input[name=username]").val(),
         password: $("input[name=password]").val(),
     };
-    var register = $("input[name=register]").attr("checked");
+    var register = $("input[name=register]").prop("checked");
     $.ajax({
         type: register ? "POST" : "GET",
         url: register ? "/api/create_account" : "/api/login",
@@ -50,7 +50,7 @@ function submit() {
         text: $("textarea[name=text]").val(),
         apisecret: apisecret
     };
-    var del = $("input[name=del]").length && $("input[name=del]").attr("checked");
+    var del = $("input[name=del]").length && $("input[name=del]").prop("checked");
     $.ajax({
         type: "POST",
         url: del ? "/api/delnews" : "/api/submit",
@@ -159,7 +159,7 @@ function setKeyboardNavigation() {
             }
             if (e.which == 13 && active.length > 0) {
                 if (active.find('h2 a').length == 0) return;
-                location.href = active.find('h2 a').attr('href');
+                location.href = active.find('h2 a').prop('href');
             }
             if (e.which == 65 && active.length > 0) {
                 active.find('.uparrow').click();
