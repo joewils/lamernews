@@ -54,6 +54,7 @@ TopNewsAgeLimit = 3600*24*30
 # Footer links
 FooterTwitterLink = false
 FooterGoogleGroupLink = false
+FooterSourceUrl = "http://github.com/joewils/lamernews"
 
 # API
 APIMaxNewsCount = 32
