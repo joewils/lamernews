@@ -220,10 +220,13 @@ get '/login' do
             H.form(:name=>"f") {
                 H.label(:for => "username") {"username"}+
                 H.inputtext(:id => "username", :name => "username")+
+                H.br+
                 H.label(:for => "password") {"password"}+
-                H.inputpass(:id => "password", :name => "password")+H.br+
+                H.inputpass(:id => "password", :name => "password")+
+                H.br+
                 H.checkbox(:name => "register", :value => "1")+
-                "create account"+H.br+
+                "create account"+
+                H.br+
                 H.submit(:name => "do_login", :value => "Login")
             }
         }+
@@ -314,10 +317,11 @@ get '/submit' do
             H.form(:name=>"f") {
                 H.inputhidden(:name => "news_id", :value => -1)+
                 H.label(:for => "title") {"title"}+
-                H.inputtext(:id => "title", :name => "title", :size => 80, :value => (params[:t] ? H.entities(params[:t]) : ""))+H.br+
+                H.inputtext(:id => "title", :name => "title", :size => 80, :value => (params[:t] ? H.entities(params[:t]) : ""))+
+                H.br+
                 H.label(:for => "url") {"url"}+H.br+
-                H.inputtext(:id => "url", :name => "url", :size => 60, :value => (params[:u] ? H.entities(params[:u]) : ""))+H.br+
-                "or if you don't have an url type some text"+
+                H.inputtext(:id => "url", :name => "url", :size => 80, :value => (params[:u] ? H.entities(params[:u]) : ""))+
+                #H.br+"or if you don't have a url type some text"+
                 H.br+
                 H.label(:for => "text") {"text"}+
                 H.textarea(:id => "text", :name => "text", :cols => 60, :rows => 10) {}+
@@ -529,12 +533,7 @@ get "/user/:username" do
     owner = $user && ($user['id'].to_i == user['id'].to_i)
     H.page {
         H.div(:class => "userinfo") {
-            H.span(:class => "avatar") {
-                email = user["email"] || ""
-                digest = Digest::MD5.hexdigest(email)
-                H.img(:src=>"//gravatar.com/avatar/#{digest}?s=48&d=mm")
-            }+" "+
-            H.h2 {H.entities user['username']}+
+            H.h2(:style => "") {H.entities user['username']}+
             H.pre {
                 H.entities user['about']
             }+
@@ -565,7 +564,7 @@ get "/user/:username" do
         }+if owner
             H.br+H.form(:name=>"f") {
                 H.label(:for => "email") {
-                    "email (not visible, used for gravatar)"
+                    "email (not visible, used for account administration)"
                 }+H.br+
                 H.inputtext(:id => "email", :name => "email", :size => 40,
                             :value => H.entities(user['email']))+H.br+
@@ -1925,11 +1924,7 @@ def comment_to_html(c,u,show_parent = false)
     comment_id = "#{news_id}-#{c['id']}"
     H.article(:class => "comment", :style => indent,
               "data-comment-id" => comment_id, :id => comment_id) {
-        H.span(:class => "avatar") {
-            email = u["email"] || ""
-            digest = Digest::MD5.hexdigest(email)
-            H.img(:src=>"//gravatar.com/avatar/#{digest}?s=48&d=mm")
-        }+H.span(:class => "info") {
+        H.span(:class => "info") {
             H.span(:class => "username") {
                 H.a(:href=>"/user/"+URI.encode(u["username"])) {
                     H.entities u["username"]
