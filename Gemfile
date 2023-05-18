@@ -7,6 +7,7 @@ gem 'json'
 gem 'ruby-hmac'
 
 group :development, :test do
+  gem 'puma'
   gem 'rake'
   gem 'rspec'
   gem 'rack-test'
