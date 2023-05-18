@@ -160,7 +160,7 @@ get '/usernews/:username/:start' do
         :render => Proc.new {|item| news_to_html(item)},
         :start => start,
         :perpage => SavedNewsPerPage,
-        :link => "/usernews/#{URI.encode(user['username'])}/$"
+        :link => "/usernews/#{CGI.escape(user['username'])}/$"
     }
     H.page {
         H.h2 {page_title}+
@@ -186,7 +186,7 @@ get '/usercomments/:username/:start' do
         },
         :start => start,
         :perpage => UserCommentsPerPage,
-        :link => "/usercomments/#{URI.encode(user['username'])}/$"
+        :link => "/usercomments/#{CGI.escape(user['username'])}/$"
     }
     H.page {
         H.h2 {"#{H.entities user['username']} comments"}+
@@ -549,13 +549,13 @@ get "/user/:username" do
                     H.li {H.a(:href=>"/saved/0") {"saved news"}}
                 else "" end+
                 H.li {
-                    H.a(:href=>"/usercomments/"+URI.encode(user['username'])+
+                    H.a(:href=>"/usercomments/"+CGI.escape(user['username'])+
                                "/0") {
                         "user comments"
                     }
                 }+
                 H.li {
-                    H.a(:href=>"/usernews/"+URI.encode(user['username'])+
+                    H.a(:href=>"/usernews/"+CGI.escape(user['username'])+
                                "/0") {
                         "user news"
                     }
@@ -1045,7 +1045,7 @@ def application_header
     }
     rnavbar = H.nav(:id => "account") {
         if $user
-            H.a(:href => "/user/"+URI.encode($user['username'])) {
+            H.a(:href => "/user/"+CGI.escape($user['username'])) {
                 H.entities $user['username']+" (#{$user['karma']})"
             }+" | "+
             H.a(:href =>
@@ -1318,7 +1318,7 @@ def send_reset_password_email(user)
     return false if aux.length < 3
     current_domain = aux[0]+"//"+aux[2]
 
-    reset_link = "#{current_domain}/set-new-password?user=#{URI.encode(user['username'])}&auth=#{URI.encode(user['auth'])}"
+    reset_link = "#{current_domain}/set-new-password?user=#{CGI.escape(user['username'])}&auth=#{CGI.escape(user['auth'])}"
 
     subject = "#{aux[2]} password reset"
     message = "You can reset your password here: #{reset_link}"
@@ -1688,7 +1688,7 @@ def news_to_html(news)
             H.span(:class => :upvotes) { news["up"] } + " up and " +
             H.span(:class => :downvotes) { news["down"] } + " down, posted by " +            
             H.username {
-                H.a(:href=>"/user/"+URI.encode(news["username"])) {
+                H.a(:href=>"/user/"+CGI.escape(news["username"])) {
                     H.entities news["username"]
                 }
             }+" "+str_elapsed(news["ctime"].to_i)+" "+
@@ -1701,7 +1701,7 @@ def news_to_html(news)
                 end
             }+
             if $user and user_is_admin?($user)
-                " - "+H.a(:href => "/editnews/#{news["id"]}") { "edit" }+" - "+H.a(:href => "http://twitter.com/intent/tweet?url=#{SiteUrl}/news/#{news["id"]}&text="+URI.encode(news["title"])+" - ") { "tweet" }
+                " - "+H.a(:href => "/editnews/#{news["id"]}") { "edit" }+" - "+H.a(:href => "http://twitter.com/intent/tweet?url=#{SiteUrl}/news/#{news["id"]}&text="+CGI.escape(news["title"])+" - ") { "tweet" }
             else "" end
         }+
         if params and params[:debug] and $user and user_is_admin?($user)
@@ -1926,7 +1926,7 @@ def comment_to_html(c,u,show_parent = false)
               "data-comment-id" => comment_id, :id => comment_id) {
         H.span(:class => "info") {
             H.span(:class => "username") {
-                H.a(:href=>"/user/"+URI.encode(u["username"])) {
+                H.a(:href=>"/user/"+CGI.escape(u["username"])) {
                     H.entities u["username"]
                 }
             }+" "+str_elapsed(c["ctime"].to_i)+". "+
