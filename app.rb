@@ -636,7 +636,7 @@ get '/random' do
     counter = $r.get("news.count")
     random = 1 + rand(counter.to_i)
 
-    if $r.exists("news:#{random}")
+    if $r.exists?("news:#{random}")
         redirect "/news/#{random}"
     else
         redirect "/news/#{counter}"
@@ -1189,7 +1189,7 @@ end
 #               is nil. The second is the error message if the function
 #               failed (detected testing the first return value).
 def create_user(username,password)
-    if $r.exists("username.to.id:#{username.downcase}")
+    if $r.exists?("username.to.id:#{username.downcase}")
         return nil, nil, "Username is already taken, please try a different one."
     end
     if rate_limit_by_ip(UserCreationDelay,"create_user",request.ip)
@@ -1342,11 +1342,11 @@ def get_news_by_id(news_ids,opt={})
         opt[:single] = true
         news_ids = [news_ids]
     end
-    news = $r.pipelined {
+    news = $r.pipelined do |pipeline| 
         news_ids.each{|nid|
-            $r.hgetall("news:#{nid}")
+            pipeline.hgetall("news:#{nid}")
         }
-    }
+    end
     return [] if !news # Can happen only if news_ids is an empty array.
 
     # Remove empty elements
@@ -1356,20 +1356,20 @@ def get_news_by_id(news_ids,opt={})
     end
 
     # Get all the news
-    $r.pipelined {
+    $r.pipelined do |pipeline| 
         news.each{|n|
             # Adjust rank if too different from the real-time value.
-            update_news_rank_if_needed(n) if opt[:update_rank]
+            update_news_rank_if_needed(n,pipeline) if opt[:update_rank]
             result << n
         }
-    }
+    end
 
     # Get the associated users information
-    usernames = $r.pipelined {
+    usernames = $r.pipelined do |pipeline|
         result.each{|n|
-            $r.hget("user:#{n["user_id"]}","username")
+            pipeline.hget("user:#{n["user_id"]}","username")
         }
-    }
+    end
     result.each_with_index{|n,i|
         n["username"] = usernames[i]
     }
@@ -1377,12 +1377,12 @@ def get_news_by_id(news_ids,opt={})
     # Load $User vote information if we are in the context of a
     # registered user.
     if $user
-        votes = $r.pipelined {
+        votes = $r.pipelined do |pipeline|
             result.each{|n|
-                $r.zscore("news.up:#{n["id"]}",$user["id"])
-                $r.zscore("news.down:#{n["id"]}",$user["id"])
+                pipeline.zscore("news.up:#{n["id"]}",$user["id"])
+                pipeline.zscore("news.down:#{n["id"]}",$user["id"])
             }
-        }
+        end
         result.each_with_index{|n,i|
             if votes[i*2]
                 n["voted"] = :up
@@ -1540,7 +1540,7 @@ def insert_news(title,url,text,user_id)
     # Add the news into the chronological view
     $r.zadd("news.cron",ctime,news_id)
     # Add the news into the top view
-    $r.zadd("news.top",rank,news_id)
+    $r.zadd("news.top",rank,news_id) if rank
     # Add the news url for some time to avoid reposts in short time
     $r.setex("url:"+url,PreventRepostTime,news_id) if !textpost
     # Set a timeout indicating when the user may post again
@@ -1745,12 +1745,12 @@ end
 # only for the news where this makes sense, that is, top news.
 #
 # Note: this function can be called in the context of redis.pipelined {...}
-def update_news_rank_if_needed(n)
+def update_news_rank_if_needed(n,pipeline)
     real_rank = compute_news_rank(n)
     delta_rank = (real_rank-n["rank"].to_f).abs
     if delta_rank > 0.000001
-        $r.hmset("news:#{n["id"]}","rank",real_rank)
-        $r.zadd("news.top",real_rank,n["id"])
+        pipeline.hmset("news:#{n["id"]}","rank",real_rank)
+        pipeline.zadd("news.top",real_rank,n["id"])
         n["rank"] = real_rank.to_s
     end
 end
@@ -1840,7 +1840,7 @@ def insert_comment(news_id,user_id,comment_id,parent_id,body)
             Time.now.to_i,
             news_id.to_s+"-"+comment_id.to_s);
         # increment_user_karma_by(user_id,KarmaIncrementComment)
-        if p and $r.exists("user:#{p['user_id']}")
+        if p and $r.exists?("user:#{p['user_id']}")
             $r.hincrby("user:#{p['user_id']}","replies",1)
         end
         return {
@@ -2046,7 +2046,7 @@ end
 # Generic API limiting function
 def rate_limit_by_ip(delay,*tags)
     key = "limit:"+tags.join(".")
-    return true if $r.exists(key)
+    return true if $r.exists?(key)
     $r.setex(key,delay,1)
     return false
 end
