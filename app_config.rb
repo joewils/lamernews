@@ -1,6 +1,6 @@
 # General
 SiteName = "Lamer News"
-SiteUrl = "http://lamernews.com"
+SiteUrl = "http://127.0.0.1:4567"
 SiteDescription = "Programming News"
 
 # Redis config
@@ -14,7 +14,7 @@ PasswordMinLength = 8
 # Comments
 CommentMaxLength = 4096
 CommentEditTime = 3600*2
-CommentReplyShift = 60
+CommentReplyShift = 10
 UserCommentsPerPage = 10
 SubthreadsInRepliesPage = 10
 
