@@ -63,3 +63,6 @@ APIMaxNewsCount = 32
 # (this will prevent users from recovery accounts if the password gets lost).
 MailRelay = "localhost"
 MailFrom = "noreply@example.com"
+
+# CSS
+CustomCSS = "body { /* background-color: magenta; */ }"
