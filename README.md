@@ -1,3 +1,8 @@
+Fork
+===
+
+This fork supports Redis 5.0, jQuery 3.7 and Ruby 2.7.3+
+
 About
 ===
 
@@ -18,9 +23,9 @@ Installation
 ===
 
 Lamer news is a Ruby/Sinatra/Redis/jQuery application.
-You need to install Redis and Ruby 1.9.2+ with the following gems:
+You need to install Redis and Ruby with the following gems:
 
-* redis 3.0 or greater
+* redis 5.0 or greater
 * hiredis
 * sinatra
 * json
@@ -28,30 +33,10 @@ You need to install Redis and Ruby 1.9.2+ with the following gems:
 * net/smtp
 * openssl (not needed but will speedup the authentication if available).
 
-Please note that Redis uses port 6379 by default, so you should either change
-the port number in the configuration file (which is set to use port 10000), or
-configure Redis to use a matching port.
-
-How to contribute
-===
-
-I plan to hack on Lamer News in my free time as it is interesting to have
-a non trivial open source example for Redis that is also an useful application.
-However contributions are welcomed. Just make sure to:
-
-* Keep it simple. No complex code, no extreme ruby programming. Ideally non ruby people should understand the code without much efforts.
-* Don't use templates, they suck.
-* If your code slows down significantly the page generation time it will not get merged.
-* Do everything you can to avoid depending on new ruby gems.
-* Open an issue on github before firing your editor to see if there are good chances that your changes will be merged.
-* If you don't want to follow all this rules, forking the code is *encouraged*! The license is two clause BSD, do with this code what you want. Run your site, turn it into a blog, hack it to the extreme consequences. Have fun :)
-
 Web sites using this code
 ===
 
-* http://lamernews.com Programming News.
-* http://hackingitalia.com Programming and Startup News (In Italian).
-* http://www.echojs.com JavaScript News.
+* TBD
 
 Data Layout
 ===
