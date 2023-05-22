@@ -1672,7 +1672,7 @@ def news_to_html(news)
         }+" "+
         H.address {
             if domain
-                "at "+H.entities(domain)
+                "("+H.entities(domain)+")"
             else "" end +
             if ($user and $user['id'].to_i == news['user_id'].to_i and
                 news['ctime'].to_i > (Time.now.to_i - NewsEditTime))

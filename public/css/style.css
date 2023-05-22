@@ -22,7 +22,7 @@ a {
 h2 {
     margin-bottom:20px;
     font-size:1.3em;
-    color:#333;
+    color:#828282;
 }
 
 li {
@@ -41,15 +41,16 @@ header h1 {
     display: inline;
     font-size:1.3em;
     font-weight:bold;
-    color:#333;
+    color:#828282;
 }
 
 header h1 a {
-    color:#333;
+    color:#000;
 }
 
 header h1 small {
     font-size: 0.7em;
+    color: #000;
 }
 
 #content {
@@ -134,7 +135,7 @@ article h2 a {
 }
 
 article h2 a:visited {
-    color: #999999;
+    color: #999;
 }
 
 article .uparrow, article .downarrow {
