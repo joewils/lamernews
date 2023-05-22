@@ -1,18 +1,27 @@
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td { margin: 0; padding: 0; border: 0; outline: 0; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: inherit; vertical-align: baseline; }
 
 body {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    text-rendering: optimizeLegibility;
+    font-family: Verdana, sans-serif;
+    margin: auto;
+    padding: 20px;
+    max-width: 90%;
+    text-align: left;
+    background-color: #fff;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #828282;
+    font-size:14px;
 }
 
 a {
     text-decoration:none;
-    color:#666;
+    color:#000;
 }
 
 h2 {
     margin-bottom:20px;
-    font-size:22px;
+    font-size:1.3em;
     color:#333;
 }
 
@@ -23,9 +32,9 @@ li {
 header {
     display:block;
     position:relative;
-    padding: 15px 0px 0px 15px;
-    background-color:#eee;
-    border-bottom: 1px #ccc solid;
+    padding-left: 15px;
+    background-color:#f60;
+    border-bottom: 1px #f60 solid;
 }
 
 header h1 {
@@ -40,23 +49,24 @@ header h1 a {
 }
 
 header h1 small {
-    font-size: 14px;
+    font-size: 0.7em;
 }
 
 #content {
     display:block;
-    margin-top:20px;
-    margin-bottom:20px;
+    margin-top:0;
+    margin-bottom:0;
     padding: 15px;
+    background-color: #f6f6ef;
 }
 
 footer {
     display:block;
-    border-top: 1px #ccc solid;
+    border-top: 2px #f60 solid;
     text-align: center;
     color:#ccc;
-    font-size:14px;
     margin-bottom:30px;
+    background-color: #f6f6ef;
 }
 
 nav {
@@ -74,7 +84,6 @@ nav a {
     top: 5px;
     right: 10px;
     font-weight:bold;
-    font-size:14px;
 }
 
 #account a {
@@ -89,7 +98,6 @@ nav a {
 }
 
 #login label, #submitform label {
-    font-size:12px;
     font-weight:bold;
 }
 
@@ -102,8 +110,7 @@ div #errormsg {
 
 article {
     display: block;
-    font-size: 16px;
-    margin-bottom:15px;
+    margin-bottom:5px;
     border: 1px solid transparent;
 }
 
@@ -113,7 +120,7 @@ article.active {
 
 article h2 {
     display: inline;
-    font-size:20px;
+    font-size:1.2em;
 }
 
 article address {
@@ -131,7 +138,7 @@ article h2 a:visited {
 }
 
 article .uparrow, article .downarrow {
-    font-size: 16px;
+    font-size: 1.2em;
     cursor: pointer;
 }
 
@@ -144,7 +151,6 @@ article .downarrow {
 }
 
 article p {
-    font-size:14px;
     color:#999;
     margin-left:20px;
 }
@@ -172,7 +178,6 @@ article.deleted {
 
 form textarea {
     font-family: Courier;
-    font-size:14px;
 }
 
 .comment {
@@ -194,7 +199,6 @@ form textarea {
 .comment .info {
     position:relative;
     left:10px;
-    font-size:14px;
     color:#999;
 }
 
@@ -225,7 +229,6 @@ article.comment .uparrow, article.comment .downarrow {
 note {
     color: #666;
     margin-left:20px;
-    font-size:14px;
 }
 
 .comment.deleted {
@@ -274,7 +277,7 @@ topcomment {
     /*left:15px;
     top:-15px;*/
     display:inline;
-    font-size:28px;
+    font-size:2.0em;
     color: #444;
 }
 
@@ -283,7 +286,7 @@ topcomment {
 }
 
 .replies sup {
-    font-size:12px;
+    font-size:0.8em;
     color: white;
     background-color:red;
     border: red 1px solid;
@@ -341,7 +344,7 @@ topcomment {
 }
 
 .banner .primary-message {
-    font-size: 200%;
+    font-size: 2.0em;
 }
 
 .banner .secondary-message {
@@ -375,7 +378,6 @@ topcomment {
     top: 20px;
     right: 10px;
     font-weight: bold;
-    font-size: 14px;
     display: none;
 }
 
