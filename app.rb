@@ -35,7 +35,7 @@ require 'json'
 require 'digest/sha1'
 require 'digest/md5'
 require_relative 'comments'
-require_relative 'pbkdf2'
+require 'bcrypt'
 require_relative 'mail'
 require_relative 'about'
 require 'openssl' if UseOpenSSL
@@ -679,7 +679,7 @@ get '/api/login' do
     else
         return {
             :status => "err",
-            :error => "No match for the specified username / password pair."
+            :error => "Login failed. If you're an existing user, please reset your password due to a security upgrade."
         }.to_json
     end
 end
@@ -901,7 +901,7 @@ post '/api/updateprofile' do
             }.to_json
         end
         $r.hmset("user:#{$user['id']}","password",
-            hash_password(params[:password],$user['salt']))
+            hash_password(params[:password]))
     end
     $r.hmset("user:#{$user['id']}",
         "about", params[:about][0..4095],
@@ -1198,12 +1198,11 @@ def create_user(username,password)
     id = $r.incr("users.count")
     auth_token = get_rand
     apisecret = get_rand
-    salt = get_rand
     $r.hmset("user:#{id}",
         "id",id,
         "username",username,
-        "salt",salt,
-        "password",hash_password(password,salt),
+        "salt","", # Salt no longer used with bcrypt
+        "password",hash_password(password),
         "ctime",Time.now.to_i,
         "karma",UserInitialKarma,
         "about","",
@@ -1234,16 +1233,10 @@ def update_auth_token(user)
     return new_auth_token
 end
 
-# Turn the password into an hashed one, using PBKDF2 with HMAC-SHA1
-# and 160 bit output.
-def hash_password(password,salt)
-    p = PBKDF2.new do |p|
-        p.iterations = PBKDF2Iterations
-        p.password = password
-        p.salt = salt
-        p.key_length = 160/8
-    end
-    p.hex_string
+# Turn the password into an hashed one using bcrypt
+def hash_password(password, salt=nil)
+    # salt parameter is ignored as bcrypt handles salt automatically
+    BCrypt::Password.create(password, cost: BCryptCost)
 end
 
 # Return the user from the ID.
@@ -1263,8 +1256,17 @@ end
 def check_user_credentials(username,password)
     user = get_user_by_username(username)
     return nil if !user
-    hp = hash_password(password,user['salt'])
-    (user['password'] == hp) ? [user['auth'],user['apisecret']] : nil
+    
+    # Check if password hash is bcrypt format
+    if user['password'].start_with?('$2')
+        # New bcrypt hash
+        bcrypt_password = BCrypt::Password.new(user['password'])
+        return bcrypt_password == password ? [user['auth'], user['apisecret']] : nil
+    else
+        # Legacy user - passwords cannot be verified without migration
+        # Force password reset for security
+        return nil
+    end
 end
 
 # Has the user submitted a news story in the last `NewsSubmissionBreak` seconds?

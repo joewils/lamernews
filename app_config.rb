@@ -7,7 +7,7 @@ SiteDescription = "Programming News"
 RedisURL = "redis://127.0.0.1:6379"
 
 # Security
-PBKDF2Iterations = 1000 # Set this to 5000 to improve security. But it is slow.
+BCryptCost = 12 # bcrypt cost factor (4-31, higher is more secure but slower)
 UseOpenSSL = false
 PasswordMinLength = 8
 

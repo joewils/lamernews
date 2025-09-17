@@ -29,9 +29,8 @@ You need to install Redis and Ruby with the following gems:
 * hiredis
 * sinatra
 * json
-* ruby-hmac
-* net/smtp
-* openssl (not needed but will speedup the authentication if available).
+* bcrypt
+* mail
 
 Web sites using this code
 ===
@@ -50,7 +49,7 @@ A Redis hash named `user:<user id>` with the following fields:
 
     id -> user ID
     username -> The username
-    password -> Hashed password, PBKDF2(salt|password) note: | means concatenation
+    password -> Hashed password, bcrypt hash (format: $2a$cost$salt+hash)
     ctime -> Registration time (unix time)
     karma -> User karma, earned visiting the site and posting good stuff
     about -> Some optional info about the user

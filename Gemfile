@@ -4,7 +4,8 @@ gem 'sinatra'
 gem 'redis'
 gem 'hiredis'
 gem 'json'
-gem 'ruby-hmac'
+gem 'bcrypt'
+gem 'mail'
 
 group :development, :test do
   gem 'puma'
