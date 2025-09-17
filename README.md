@@ -1,7 +1,7 @@
 Lamer News - SQLite Edition
 ===
 
-**This version has been migrated from Redis to SQLite, I wanted a non-trivial task to test and develop my "vibe" coding skills using GitHub Copilot and Claude Sonnet 4.
+**This version has been migrated from Redis to SQLite, I wanted a non-trivial task to test and develop my "vibe" coding skills using GitHub Copilot and Claude Sonnet 4.**
 
 **Technology Stack:**
 - **Backend:** Ruby 3.2.3+ with Sinatra web framework
