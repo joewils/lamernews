@@ -18,8 +18,8 @@ Successfully completed full migration from PBKDF2 to bcrypt password hashing for
 
 ### New Files Created
 - **`spec/bcrypt_spec.rb`**: Comprehensive tests for bcrypt functionality
-- **`migration_notice.md`**: Documentation explaining the migration for users and admins
-- **`migrate_passwords.rb`**: Administrative script to check migration status
+- **`docs/migration_notice.md`**: Documentation explaining the migration for users and admins
+- **`scripts/migrate_passwords.rb`**: Administrative script to check migration status
 
 ### Files Removed
 - **`pbkdf2.rb`**: Custom PBKDF2 implementation (no longer needed)
@@ -51,7 +51,7 @@ Successfully completed full migration from PBKDF2 to bcrypt password hashing for
 
 Run the migration script to check status:
 ```bash
-ruby migrate_passwords.rb
+ruby scripts/migrate_passwords.rb
 ```
 
 This provides:
@@ -76,7 +76,7 @@ New test suite in `spec/bcrypt_spec.rb` covers:
 - Run tests: `bundle exec rspec spec/bcrypt_spec.rb`
 
 ✅ **After deployment:**
-- Run `ruby migrate_passwords.rb` to check status
+- Run `ruby scripts/migrate_passwords.rb` to check status
 - Notify users about password reset requirement
 - Monitor for user issues and provide support
 
