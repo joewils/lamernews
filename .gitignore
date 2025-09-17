@@ -1,2 +1,6 @@
 .*.swp
 dump.rdb
+.bundle
+vendor
+.DS_Store
+data/*.db

@@ -3,12 +3,11 @@ SiteName = "Lamer News"
 SiteUrl = "http://127.0.0.1:4567"
 SiteDescription = "Programming News"
 
-# Redis config
-RedisURL = "redis://127.0.0.1:6379"
+# SQLite config (migrated from Redis)
+DatabasePath = "data/lamernews.db"
 
 # Security
 BCryptCost = 12 # bcrypt cost factor (4-31, higher is more secure but slower)
-UseOpenSSL = false
 PasswordMinLength = 8
 
 # Comments
@@ -60,7 +59,7 @@ FooterSourceUrl = "http://github.com/joewils/lamernews"
 APIMaxNewsCount = 32
 
 # Email service. Set MailRelay to false to disable this functionality
-# (this will prevent users from recovery accounts if the password gets lost).
+# (this will prevent users from recovering accounts if the password gets lost).
 MailRelay = "localhost"
 MailFrom = "noreply@example.com"
 

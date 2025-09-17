@@ -1,13 +1,15 @@
-Fork
+Fork - SQLite Migration
 ===
 
-This fork supports Redis 5.0, jQuery 3.7 and Ruby 2.7.3+
+This fork has been migrated from Redis to SQLite, supporting SQLite 3.x, jQuery 3.7 and Ruby 2.7.3+
+
+**🎉 MIGRATION COMPLETED**: This version uses SQLite instead of Redis as the database, providing improved data integrity, simplified deployment, and ACID compliance while maintaining all original functionality.
 
 About
 ===
 
 Lamer news is an implementation of a Reddit / Hacker News style news web site
-written using Ruby, Sinatra, Redis and jQuery.
+written using Ruby, Sinatra, SQLite and jQuery.
 
 The goal is to have a system that is very simple to understand and modify and
 that is able to handle a very high load using a small virtual server, ensuring
@@ -16,21 +18,49 @@ at the same time a very low latency user experience.
 This project was created in order to run http://lamernews.com but is free for
 everybody to use, fork, and have fun with.
 
-We believe it is also a good programming example for Redis as a sole DB of a
-nontrivial, real world, web application.
+This version demonstrates how to build a complete web application using SQLite as the sole database, with proper relational design and ACID compliance.
 
 Installation
 ===
 
-Lamer news is a Ruby/Sinatra/Redis/jQuery application.
-You need to install Redis and Ruby with the following gems:
+Lamer news is now a Ruby/Sinatra/SQLite/jQuery application.
+You need to install Ruby with the following gems:
 
-* redis 5.0 or greater
-* hiredis
+* sqlite3
 * sinatra
 * json
 * bcrypt
 * mail
+
+### Quick Start
+
+```bash
+# Install dependencies
+bundle install
+
+# Initialize database
+ruby scripts/init_database.rb
+
+# Start the application
+ruby app.rb
+```
+
+### Migrating from Redis
+
+If you have an existing Redis-based installation:
+
+```bash
+# Run migration script (requires Redis to be running)
+ruby scripts/migrate_redis_to_sqlite.rb
+
+# Test migration
+ruby scripts/test_migration.rb
+
+# Start with SQLite
+ruby app.rb
+```
+
+See `docs/DEPLOYMENT_GUIDE.md` for detailed migration instructions.
 
 Web sites using this code
 ===

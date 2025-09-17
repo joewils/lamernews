@@ -1,8 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'sinatra'
-gem 'redis'
-gem 'hiredis'
+gem 'sqlite3'
 gem 'json'
 gem 'bcrypt'
 gem 'mail'

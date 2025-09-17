@@ -98,7 +98,8 @@ class RedisComments
 
     def render_comments(thread_id,root=-1,&block)
         byparent = fetch_thread(thread_id)
-        render_comments_rec(byparent,root,0,block) if byparent[-1]
+        return "" unless byparent[-1]
+        render_comments_rec(byparent,root,0,block)
     end
 
     def render_comments_rec(byparent,parent_id,level,block)

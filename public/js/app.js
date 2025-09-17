@@ -4,6 +4,11 @@ function login() {
         password: $("input[name=password]").val(),
     };
     var register = $("input[name=register]").prop("checked");
+    
+    // Include email if registering
+    if (register) {
+        data.email = $("input[name=email]").val();
+    }
     $.ajax({
         type: register ? "POST" : "GET",
         url: register ? "/api/create_account" : "/api/login",
@@ -215,6 +220,16 @@ function handle_voting(item_type,vote_type,item_id,callback) {
     return function(e) {
         if (typeof(apisecret) == 'undefined') return; // Not logged in
         e.preventDefault();
+        
+        // Prevent double-clicking by checking if already voting
+        var article = $('article[data-'+item_type+'-id="'+item_id+'"]');
+        if (article.hasClass('voting-in-progress')) {
+            return; // Already voting on this item
+        }
+        
+        // Mark as voting in progress
+        article.addClass('voting-in-progress');
+        
         var data = {
             vote_type: vote_type,
             apisecret: apisecret
@@ -225,8 +240,8 @@ function handle_voting(item_type,vote_type,item_id,callback) {
             url: "/api/vote"+item_type,
             data: data,
             success: function(r) {
+                article.removeClass('voting-in-progress'); // Remove voting lock
                 if (r.status == "ok") {
-                    var article = $('article[data-'+item_type+'-id="'+item_id+'"]');
                     if (item_type == "news") {
                         var vote_count = $('article[data-'+item_type+'-id="'+item_id+'"] .'+vote_type+'votes');
                         vote_count.text(parseInt(vote_count.text(), 10) + 1);
@@ -239,6 +254,10 @@ function handle_voting(item_type,vote_type,item_id,callback) {
                 } else {
                     alert(r.error);
                 }
+            },
+            error: function() {
+                article.removeClass('voting-in-progress'); // Remove voting lock on error
+                alert('Voting failed. Please try again.');
             }
         });
     }
